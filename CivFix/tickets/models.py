@@ -1,3 +1,46 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
+
+class Ticket(models.Model):
+    CATEGORY_CHOICES = [
+        ('INFRASTRUCTURE', 'Infrastructure'),
+        ('SAFETY_SECURITY', 'Safety & Security'),
+        ('SANITATION_HEALTH', 'Sanitation & Health'),
+        ('TRAFFIC_TRANSPORTATION', 'Traffic & Transportation'),
+    ]
+
+    STATUS_CHOICES = [
+        ('OPEN', 'Open'),
+        ('IN_PROGRESS', 'In progress'),
+        ('RESOLVED', 'Resolved'),
+        ('CLOSED', 'Closed'),
+    ]
+
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    location = models.CharField(max_length=255)
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='INFRASTRUCTURE')
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='OPEN')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    creator = models.ForeignKey(User, related_name='tickets', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
+    def calculate_total_upvote(self):
+        pass
+        # return self.upvote_set.count()
+
+
+class Upvote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    ticket = models.ForeignKey(Ticket, related_name='upvotes', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'ticket')
+
+    def __str__(self):
+        return f"{self.user.username} upvoted {self.ticket.title}"
