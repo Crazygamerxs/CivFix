@@ -51,7 +51,7 @@
                                 <div class="card-text">Status: {{ ticket.status }}</div>
                                 <div class="container" style="display: flex; margin-top: 2px;">
                                     <button type="button" class="upvote-btn btn btn-success" data-ticket-id="{{ ticket.id }}" style="margin-left: -10px; margin-right: 10px;" >👍</button>
-                                    <h4 style="margin-top: 5px;">{{ ticket.upvotes.count }}</h4>
+                                    <h4 id="upvote-count-{{ ticket.id }}" style="margin-top: 5px;">{{ ticket.upvotes.count }}</h4>
                                 </div>
                         </div>
                     </div>
@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <script>
+   <script>
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -100,20 +100,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                if (data.success) {
-                    alert('Upvoted successfully!');
-                    // Update the upvote count here if needed.
-                } else {
-                    alert('There was an error upvoting.');
+              if (data.success) {
+                alert('Upvoted successfully!');
+              } else {
+                alert('Thanks for upvoting.');
+
+              }
+                const upvoteCountElement = document.getElementById(`upvote-count-${ticketId}`);
+
+                if (upvoteCountElement) {
+                  upvoteCountElement.textContent = data.upvote_count; // Updating the upvote count
                 }
-            })
-            .catch((error) => {
-                // Enhanced error logging
-                console.error('Error status:', error.message);
+
+                }).catch(error => {
+                  // Enhanced error logging
+                  console.error('Error status:', error.message);
             });
         });
     });
-});
+ });
+   </script>
 
-</script>
 {% endblock %}

@@ -35,8 +35,6 @@ CivFix incorporates cutting-edge technologies to ensure a seamless user experien
 - **Database:** SQLite 🗄️
   - SQLite, a lightweight and serverless database engine, is employed for efficient data storage and retrieval. Its simplicity ensures smooth operation and quick access to information.
 
-- **Authentication:** Auth0 🔐
-  - Auth0 provides secure and streamlined user authentication services, ensuring data protection and enabling hassle-free sign-in for our users. Its robust features enhance the overall platform security.
 
 ## Leaderboard and Scoring 🏆✨
 

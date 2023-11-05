@@ -1,3 +1,4 @@
+from django.db.models import Sum
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -44,14 +45,11 @@ def upvote_ticket(request, ticket_id):
         user=user if user.is_authenticated else None,
         session_key=session_key if not user.is_authenticated else '',
         ticket=ticket,
-        defaults={'vote_weight': 1}  # You can change the vote_weight if needed
+        defaults={'vote_weight': 1}
     )
 
     if not created:
-        # If the upvote already exists, you may want to either:
-        # 1. Do nothing (prevent multiple upvotes), or
-        # 2. Toggle the upvote (upvote again to undo).
-        # Here, we're assuming we simply ignore the second upvote.
+        # simply ignore the second upvote
         return JsonResponse({
             'success': False,
             'message': 'You have already upvoted this ticket.',
@@ -59,26 +57,43 @@ def upvote_ticket(request, ticket_id):
         })
 
     # Get or create the user's profile
-    profile, created = Profile.objects.get_or_create(user=request.user)
+    creator_profile, profile_created = Profile.objects.get_or_create(user=ticket.creator)
 
     if created:
-        # If the profile was just created, the default points are already set in the model
         pass
 
     # Use the model's method to add points
-    profile.add_points(2, 'upvote')
+    creator_profile.add_points(2)
 
     # Increase the ticket upvotes and save
-    ticket.upvotes += 1
-    ticket.save()
+    upvote_count = ticket.upvotes.count()
 
+    # return render(request, 'home.html')
     # Return a JSON response indicating success
-    return JsonResponse({'status': 'success', 'message': 'Thank you for upvoting!', 'upvotes': ticket.upvotes, 'upvote_count': ticket.upvotes.count()})
+    return JsonResponse({
+        'status': 'success',
+        'message': 'Thank you for upvoting!',
+        'upvote_count': upvote_count
+    })
 
 
 def profile(request):
-    # user = Profile.objects.get()
-    return render(request, 'profile.html')
+    query = request.GET.get('username', '') # Gets the username query from the request
+    if query:
+        user = User.objects.filter(username__iexact=query).first() # Find the user by username
+        if user:
+            profile = Profile.objects.get(user=user)
+            # Your logic to gather additional data for the user profile goes here
+            # ...
+            context = {'profile': profile}
+            return render(request, 'profile.html', context)
+        else:
+            # User not found, render some error or a blank profile template
+            return render(request, 'profile.html', {'error': 'User not found'})
+    else:
+        # Default profile page when no search query is present
+        # You can also handle this to show the profile of the logged-in user or some default content
+        return render(request, 'profile.html')
 
 
 def leaderboard(request):

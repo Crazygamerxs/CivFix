@@ -20,7 +20,7 @@ class Ticket(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=255)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='INFRASTRUCTURE')
-    status = models.CharField(max_length=255)
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     creator = models.ForeignKey(User, related_name='tickets', on_delete=models.CASCADE, default='admin')
@@ -51,7 +51,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     points = models.IntegerField(default=0)
 
-    def add_points(self, points, reason):
+    def add_points(self, points):
         self.points += points
         self.save()
 
