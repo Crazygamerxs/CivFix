@@ -17,9 +17,9 @@ def home(request):
     return render(request, 'home.html', {'tickets': tickets})
 
 
-def profile(request, username):
-    user = Profile.objects.get(user__username=username)
-    return render(request, 'profile.html', {'user': user})
+def profile(request):
+    # user = Profile.objects.get()
+    return render(request, 'profile.html')
 
 
 def leaderboard(request):
