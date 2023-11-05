@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+        <a href="{% url 'tickets:home' %}" class="navbar-brand"><h2>CivFix</h2></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="nav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="{% url 'tickets:home' %}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'tickets:leaderboard' %}" class="nav-link">Leaderboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'tickets:profile' %}" class="nav-link">Profile</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

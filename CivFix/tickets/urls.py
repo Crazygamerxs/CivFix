@@ -6,7 +6,7 @@ from . import views
 app_name = "tickets"
 
 urlpatterns = [
-    path("", views.home, name="index"),
+    path("", views.home, name="home"),
     path("home/", views.home, name="home"),
     path("leaderboard/", views.leaderboard, name="leaderboard"),
     path("profile/", views.profile, name="profile"),
