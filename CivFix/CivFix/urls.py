@@ -9,9 +9,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('tickets/', include('tickets.urls', namespace='tickets')),
     # path('', views.index, name='index'),
-    path("", views.index, name="index"),
-    path("login", views.login, name="login"),
-    path("logout", views.logout, name="logout"),
-    path("callback", views.callback, name="callback"),
     # path('tickets/', include('tickets.urls')),
+    
 ]
+
+
+# urlpatterns = [
+#     # user profile page
+#     path('id/<int:user_id>/', views.profile, name='profile'),
+#     path('leaderboard/', views.leaderboard, name='leaderboard'),
+# ]
+
