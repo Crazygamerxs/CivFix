@@ -1,8 +1,14 @@
+![Blue Modern Gradient Technology LinkedIn Banner](https://github.com/Crazygamerxs/CivFix/assets/97239999/29f0cf1b-d707-4c27-a558-e8102636763a)
+
+
+<img align = "right" alt="Coding" width = "400" src="https://www.icegif.com/wp-content/uploads/among-us-icegif-32.gif">
+
+
 # 🌍 CivFix (Civilian Fix) 🛠️
 
 Developed by Sampreet K, Ricky W, Muhammad Inshal F, Max N 🚀
 
-CivFix is your community-driven solution, designed to empower college students and neighborhood members to proactively address pressing issues affecting the community. Navigating the school or city's complaint system can be daunting, leading many problems to go unreported for weeks or even months. With CivFix, anyone can easily submit a ticket via our Webapp, shedding light on issues such as unfilled potholes, broken streetlights, or unsanitary conditions. Community members can then "upvote" these tickets, bringing attention to the most significant problems and ensuring they are prioritized for resolution. Designated admins, including school and city officials, can log in, view prevalent issues, and take prompt action. 💪🌟🏙️
+CivFix empowers college students and neighborhood members to proactively address community issues. Through our Webapp, users can easily report problems like unfilled potholes and broken streetlights. Community members can upvote these issues, ensuring they are prioritized for resolution. Designated admins, including school and city officials, can view and address prevalent issues promptly. 💪🌟🏙️
 
 
 ## Introduction 🚀✨
