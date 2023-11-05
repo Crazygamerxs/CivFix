@@ -4,13 +4,6 @@ Developed by Sampreet K, Ricky W, Muhammad Inshal F, Max N 🚀
 
 CivFix is your community-driven solution, designed to empower college students and neighborhood members to proactively address pressing issues affecting the community. Navigating the school or city's complaint system can be daunting, leading many problems to go unreported for weeks or even months. With CivFix, anyone can easily submit a ticket via our Webapp, shedding light on issues such as unfilled potholes, broken streetlights, or unsanitary conditions. Community members can then "upvote" these tickets, bringing attention to the most significant problems and ensuring they are prioritized for resolution. Designated admins, including school and city officials, can log in, view prevalent issues, and take prompt action. 💪🌟🏙️
 
-## Table of Contents
-- [Introduction](#introduction)
-- [Project Overview](#project-overview)
-- [Market Research](#market-research)
-- [Technology Used](#technology-used)
-- [Leaderboard and Scoring](#leaderboard-and-scoring)
-- [Future Functionalities](#future-functionalities)
 
 ## Introduction 🚀✨
 CivFix revolutionizes issue reporting, providing a seamless platform for college students and neighborhood residents. By simplifying the process, we bridge the gap between the community and administration, ensuring swift problem resolution. Our mission is to empower users, making their voices heard and fostering a proactive, engaged community spirit.
