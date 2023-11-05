@@ -4,6 +4,8 @@ from django.conf import settings
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from urllib.parse import quote_plus, urlencode
+from django.shortcuts import render
+from .models import UserProfile
 
 oauth = OAuth()
 
@@ -50,3 +52,12 @@ def index(request):
             "pretty": json.dumps(request.session.get("user"), indent=4),
         },
     )
+
+def profile(request, username):
+    user = UserProfile.objects.get(user__username=username)
+    return render(request, 'profile.html', {'user': user})
+
+
+def leaderboard(request):
+    leaderboard_users = UserProfile.objects.order_by('-points')[:10]  # Get top 10 users
+    return render(request, 'leaderboard.html', {'leaderboard_users': leaderboard_users})
