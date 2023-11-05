@@ -5,3 +5,9 @@
   <p>Created on: {{ ticket.created_at }}</p>
   <p>Number of upvote: {{ ticket.upvotes.count }}</p>
 {% endfor %}
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Submit</button>
+</form>
