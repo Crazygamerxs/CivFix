@@ -20,10 +20,10 @@ class Ticket(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=255)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='INFRASTRUCTURE')
-    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='OPEN')
+    status = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    creator = models.ForeignKey(User, related_name='tickets', on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, related_name='tickets', on_delete=models.CASCADE, default='admin')
 
     def __str__(self):
         return self.title
@@ -33,15 +33,19 @@ class Ticket(models.Model):
         # return self.upvote_set.count()
 
 class Upvote(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     ticket = models.ForeignKey(Ticket, related_name='upvotes', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    session_key = models.CharField(max_length=40, null=True, blank=True)
+    vote_weight = models.IntegerField(default=1)
 
     class Meta:
-        unique_together = ('user', 'ticket')
+        unique_together = [('user', 'ticket'), ('session_key', 'ticket')]
+        index_together = [['user', 'ticket'], ['session_key', 'ticket']]
 
     def __str__(self):
-        return f"{self.user.username} upvoted {self.ticket.title}"
+        username = self.user.username if self.user else 'Anonymous'
+        return f"{username} upvoted {self.ticket.title}"
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

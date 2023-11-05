@@ -1,6 +1,4 @@
-from django.contrib import admin
-from django.urls import path, include
-
+from django.urls import path
 from . import views
 
 app_name = "tickets"
@@ -10,6 +8,6 @@ urlpatterns = [
     path("home/", views.home, name="home"),
     path("leaderboard/", views.leaderboard, name="leaderboard"),
     path("profile/", views.profile, name="profile"),
-    # path('profile/id/<int:user_id>/', views.profile, name='profile'),
+    # URL pattern for upvoting
+    path('upvote/<int:ticket_id>/', views.upvote_ticket, name='upvote_ticket'),
 ]
-

@@ -4,30 +4,35 @@
 
 {% block content %}
     <div class="container">
-        <button type="button" class="btn btn-warning" style="margin-top: 20px;" data-bs-toggle="modal" data-bs-target="#model">Add Ticket</button>
-        <div class="modal fade" id="model">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <label for="text" class="modal-header"><h3>Name</h3></label>
-                    <input type="text" class="form-control">
+<button type="button" class="btn btn-warning btn-lg" style="margin-top: 20px;" data-bs-toggle="modal" data-bs-target="#model">Add Ticket</button>
+<div class="modal fade" id="model">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="post" action="{% url 'tickets:home' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-header">
                     <button class="btn-close" data-bs-dismiss="modal" data-bs-target="#model"></button>
-                    </div>
-                    <label for="text" class="modal-body">Problem</label>
-                    <div class="container" style="text-align: center; padding-bottom: 20px;">
-                        <input type="text" class="form-control" style="width: 90%;"></input>
-                    </div>
-                    <label for="text" class="modal-body">Category</label>
-                    <div class="container" style="text-align: center; padding-bottom: 20px;">
-                        <input type="text" class="form-control" style="width: 90%;"></input>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
                 </div>
-            </div>
+                <div class="modal-body">
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+                    {{ form.location.label_tag }}
+                    {{ form.location }}
+                    {{ form.description.label_tag }}
+                    {{ form.description }}
+                    <br>
+                    {{ form.category.label_tag }}
+                    {{ form.category }}
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
+
     </div>
 
     <div class="container">
@@ -37,18 +42,16 @@
                 <div class="box">
                     <div class="card" style="margin-top: 20px;">
                         <div class="card-body">
-                            <h2 class="card-title text-primary">Name: {{ ticket.title }}</h2>
+                            <h2 class="card-title text-primary">{{ ticket.title }}</h2>
+                                <div class="card-subtitle">Created by: {{ ticket.creator }}</div>
                                 <span class="cart-subtitle">Created on: {{ ticket.created_at }}</span>
+                                <div class="card-text">Location: {{ ticket.location }} </div>
+                                <div class="card-text">Category: {{ ticket.category }} </div>
                                 <div class="card-text">Description: {{ ticket.description }}</div>
-                                <div class="card-text">Location: {{ ticket.location }}</div>
-                                <div class="card-text">Number of upvote: {{ ticket.upvotes.count }}</div>
-                                <div class="card-text">Created on: {{ ticket.created_at }}</div>
-                                <div class="card-text">Category:
-                                </div>
-                                <div class="card-text">Status: </div>
+                                <div class="card-text">Status: {{ ticket.status }}</div>
                                 <div class="container" style="display: flex; margin-top: 2px;">
-                                    <button type="button" class="btn btn-success" style="margin-left: -10px; margin-right: 10px;">👍</button>
-                                    <h4 style="margin-top: 5px;">0</h4>
+                                    <button type="button" class="upvote-btn btn btn-success" data-ticket-id="{{ ticket.id }}" style="margin-left: -10px; margin-right: 10px;" >👍</button>
+                                    <h4 style="margin-top: 5px;">{{ ticket.upvotes.count }}</h4>
                                 </div>
                         </div>
                     </div>
@@ -58,9 +61,59 @@
         </div>
     </div>
 
-{#    <form method="post">#}
-{#      {% csrf_token %}#}
-{#      {{ form.as_p }}#}
-{#      <button type="submit">Submit</button>#}
-{#    </form>#}
+    <script>
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+const csrftoken = getCookie('csrftoken');
+
+document.addEventListener('DOMContentLoaded', function() {
+    var upvoteButtons = document.querySelectorAll('.upvote-btn');
+
+    upvoteButtons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            var ticketId = this.getAttribute('data-ticket-id');
+
+            fetch('/upvote/' + ticketId + '/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text) });
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Upvoted successfully!');
+                    // Update the upvote count here if needed.
+                } else {
+                    alert('There was an error upvoting.');
+                }
+            })
+            .catch((error) => {
+                // Enhanced error logging
+                console.error('Error status:', error.message);
+            });
+        });
+    });
+});
+
+</script>
 {% endblock %}
