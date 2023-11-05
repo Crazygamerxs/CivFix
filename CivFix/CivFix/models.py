@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Ticket(models.Model):
     CATEGORY_CHOICES = [
         ('INFRASTRUCTURE', 'Infrastructure'),
@@ -33,7 +32,6 @@ class Ticket(models.Model):
         pass
         # return self.upvote_set.count()
 
-
 class Upvote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     ticket = models.ForeignKey(Ticket, related_name='upvotes', on_delete=models.CASCADE)
@@ -45,21 +43,13 @@ class Upvote(models.Model):
     def __str__(self):
         return f"{self.user.username} upvoted {self.ticket.title}"
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    points = models.IntegerField(default=0)
 
-from django.db import models
-from django.contrib.auth.models import User
+    def add_points(self, points, reason):
+        self.points += points
+        self.save()
 
-
-# class UserProfile(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     points = models.IntegerField(default=0)
-
-#     def add_points(self, points, reason):
-#         self.points += points
-#         self.save()
-
-#     def subtract_points(self, points, reason):
-#         pass
-
-#     def __str__(self):
-#         return self.user.username
+    def __str__(self):
+        return self.user.username

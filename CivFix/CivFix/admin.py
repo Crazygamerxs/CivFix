@@ -1,12 +1,6 @@
 from django.contrib import admin
-from .models import Ticket, Upvote
+from .models import Ticket, Upvote, UserProfile
 
 admin.site.register(Ticket)
 admin.site.register(Upvote)
-
-# from django.contrib import admin
-
-# from .models import UserProfile
-
-# # Register your models here.
-# admin.site.register(UserProfile)
+admin.site.register(UserProfile)
