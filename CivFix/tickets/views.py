@@ -1,34 +1,27 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
-def index(request):
-    return HttpResponse("Hello, world. You're at the index.")
-
-
-#def profile(request, username):
-#     user = UserProfile.objects.get(user__username=username)
-#     return render(request, 'profile.html', {'user': user})
+from .forms import TicketForm
+from .models import Ticket, Upvote, Profile
 
 
-# def leaderboard(request):
-#     leaderboard_users = UserProfile.objects.order_by('-points')[:10]  # Get top 10 users
-#     return render(request, 'leaderboard.html', {'leaderboard_users': leaderboard_users})
+def home(request):
+    if request.method == 'POST':
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        else:
+            form = TicketForm()
 
-#from django.shortcuts import render, redirect
-# from .models import Ticket
-# from .forms import TicketForm
+    tickets = Ticket.objects.all()
+    return render(request, 'home.html', {'tickets': tickets})
 
-# def home(request):
-#     if request.method == 'POST':
-#         # Assuming the form data comes via POST request
-#         form = TicketForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             # Redirect to the same page to display the form again
-#             return redirect('tickets:home')
-#     else:
-#         form = TicketForm()
 
-#     # Fetch tickets to display them
-#     tickets = Ticket.objects.all()
-#     return render(request, 'tickets/home.html', {'form': form, 'tickets': tickets})
+def profile(request, username):
+    user = Profile.objects.get(user__username=username)
+    return render(request, 'profile.html', {'user': user})
+
+
+def leaderboard(request):
+    leaderboard_users = Profile.objects.order_by('-points')[:10]  # Get top 10 users
+    return render(request, 'leaderboard.html', {'leaderboard_users': leaderboard_users})
