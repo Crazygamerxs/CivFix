@@ -43,11 +43,11 @@ class Upvote(models.Model):
     def __str__(self):
         return f"{self.user.username} upvoted {self.ticket.title}"
 
-class UserProfile(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     points = models.IntegerField(default=0)
 
-    def add_points(self, points, reason):
+    def add_points(self, psoints, reason):
         self.points += points
         self.save()
 

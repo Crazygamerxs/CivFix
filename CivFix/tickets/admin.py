@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Ticket, Upvote, UserProfile
+from .models import Ticket, Upvote, Profile
 
 admin.site.register(Ticket)
 admin.site.register(Upvote)
-admin.site.register(UserProfile)
+admin.site.register(Profile)
